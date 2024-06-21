@@ -1,0 +1,26 @@
+
+html, body{
+    margin:0;
+    padding:0;
+}
+
+
+#navbar{
+    height: 53px;
+    background-color: rgb(234, 161, 161);
+}
+
+
+#notearea{
+    display:flex; 
+    flex-direction: column;
+}
+
+#notelist{
+    background-color: rgb(170, 170, 229);
+    flex:30%
+}
+#notebody{
+    background-color: rgb(173, 238, 217);
+    flex:70%;
+}

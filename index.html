@@ -5,20 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notes</title>
     <link rel="stylesheet" href="style.css">
+
+    <!--Roboto font from google    link: https://fonts.google.com/selection/embed  -->  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+
 </head>
 <body>
-    <section id="navbar">
-        <button>Trash</button>
-        <button onclick=newNote()>New Note</button>
-    </section>
+    <div id="navbar-area">
+        <div id="navbar-left">
+            <button id="trash">Trash</button>
+        </div>
+        <div id="navbar-right">
+            <button id="newNote" >New Note</button>
+        </div>
+        
+    </div>
 
     <div id="notearea">
-        <section id="notelist">
+        <div id="notelist">
             <p>notelist section</p>
-        </section>
-        <section id="notebody">
+        </div>
+        <div id="notebody">
             <p>notebody section</p>
-        </section>
+        </div>
     </div>
 
 

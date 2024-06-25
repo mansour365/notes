@@ -2,25 +2,53 @@
 html, body{
     margin:0;
     padding:0;
+    height: 100%;
+
+    display: flex; /*This is flexbox for the entire web page, (needed to extend the body to the bottom)*/
+    flex-direction: column;  /*Items in this flexbox are stcked up to down*/
+
+    /*this removes all the scroll bars, more like an app*/
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    /*default font for entire page*/
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 
-#navbar{
-    height: 53px;
-    background-color: rgb(234, 161, 161);
+#navbar-area{
+    display:flex;  /*The entire navbar is a flexbox container*/
+    height: 53px; /*height of navbar is 53px (This height is fixed)*/
+    flex-direction: row; /*items in this flexbox are stacked left ot right*/
+    flex-wrap: nowrap; /*Make sure no wrapping occurs*/
+    background-color: rgb(244, 243, 244);
+    border-bottom: solid 1px rgb(217, 217, 217);
+}
+#navbar-left{
+    width: 281px;
+    border-right: solid 1px rgb(230, 230, 230);
+}
+#navbar-right{
+    flex-grow: 1;
 }
 
-
-#notearea{
-    display:flex; 
-    flex-direction: column;
+/*Flex container*/
+#notearea{    
+    display:flex; /*estblish that this container uses flexbox*/
+    flex-direction: row; /*items are layout in row direction*/
+    flex-wrap: nowrap; /*all items will appear on one line (no wrapping)*/
+    flex-grow:1; /*Needed so that notes area enxtends to bottom of screen*/
 }
 
+/*Flex items*/
 #notelist{
-    background-color: rgb(170, 170, 229);
-    flex:30%
+    width: 281px;
+    border-right: solid 1px rgb(230, 230, 230);
 }
 #notebody{
-    background-color: rgb(173, 238, 217);
-    flex:70%;
+    flex-grow: 1;
 }

@@ -1,0 +1,38 @@
+
+html, body{
+    margin:0;
+    padding:0;
+    height: 100%;
+
+    display: flex; /*This is flexbox for the entire web page, (needed to extend the body to the bottom)*/
+    flex-direction: column;  /*Items in this flexbox are stcked up to down*/
+
+    /*this removes all the scroll bars, more like an app*/
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    /*default font for entire page*/
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+    background-color: rgb(240, 244, 248);
+}
+
+.loginCard{
+    width: 300px;
+    height: 300px;
+    background-color: rgb(255, 255, 255);
+    margin: auto;
+    padding: 20px;
+    border-radius: 2%;
+    display:flex;
+    flex-direction: column;
+}
+
+.inputField{
+    height:30px;
+    margin-bottom: 20px;
+}

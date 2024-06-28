@@ -15,23 +15,33 @@
 </head>
 <body>
     <div class="loginCard">
+        <!--https://www.w3schools.com/css/css_form.asp-->
+        <!--https://www.w3schools.com/css/tryit.asp?filename=trycss_forms-->
         <!--https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgdrhY6zM7txEf61nPO67_Cl7rOyCGsyEb9GaIEqe3M-p-yN2nJeBUGCXkDygK7t8xYVcKwSgu4v0_u6EZF5srUh16p0vNl1K8hBeBV8dg-KcOpt7y8vrkamMOU2HxW0STp0JDEp21FWuCWxDXZX0EtxoLPSBWR6WwhXZglXIvWXbh24ojuyofD6htY8D4/s3396/userinter.png-->
         <p>Image of notes</p>
         <h1>Sign in</h1>
         
-        <input class="inputField" type="email" placeholder="Email">
-        <input class="inputField" type="password" placeholder="Password">
+        <input id="email" type="email" placeholder="Email">
+        <input id="password" type="password" placeholder="Password">
 
         <a>Forgot password?</a> 
 
         
-        <a>Create Account</a>
-        <button>Sign in</button>
+        <button onclick="register()">Create Account</button>
+        <button onclick="login()">Sign in</button>
 
     </div>
 
 
     
-    <script src="script.js"></script>
+    
 </body>
+<!--Core firbase JS SDK is always required and must be listed first-->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+<!--TODOL Add SDK's for firbase products that you want to use-->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"></script>
+
+<script src="script.js"></script>
+
 </html>

@@ -36,11 +36,14 @@ const createAccountUserInterface = document.getElementById("create-account");
 const cancelCreateAccount = document.getElementById("cancel-create-account")
 const signUpButton = document.getElementById("sign-up");
 const signInButton = document.getElementById("sign-in");
+const signInStatus = document.getElementById("sign-in-status");
+const accountDetails = document.getElementById("account-details");
 const forgotButton = document.getElementById("forgot");
 
 
+
 /*Handles the sign up button press */
-function handleSignUp(){
+function handleSignUp(){    //async function always return a promise
     const email = emailInput.value;
     const password = passwordInput.value;
     const password2 =password2Input.value;
@@ -62,19 +65,47 @@ function handleSignUp(){
     //If reach here then email and password are acceptable
 
     //Create the user using email and password
-    createUserWithEmailAndPassword(auth, email, password).catch(function (error){
-        //Handle these errors
-        const errorCode = error.code;
+    //this function will return user credentials if successful, so we use a ".then()"
+    //if unsuccessful it will throw an error, we catch with ".catch()"
+    createUserWithEmailAndPassword(auth, email, password)
+    .then(function(userCredential){
+        //Signed up
+        const user = userCredential.user;
+        //Send email verification
+        sendEmailVerification(user);
+        console.log("successfully sent email verification");
+        console.log("Here are the user credentials:")
+        console.log(userCredential);
+        alert("Please check your email for a verification.\n" +
+            "We've sent an email to "+email+".\n" +
+            "Click on the link of that email to complete your sign up.\n"+
+            "If you don't see it, you may need to to check you spam folder.");
+    })
+    .catch(function (error){
         const errorMessage = error.message;
-        if(errorCode == 'auth/weak-password'){
-            alert('The password is too weak');
-        }else{
-            alert(errorMessage);
-        }
+        alert(errorMessage);
         console.log(error);
     });
+    
+}
 
+function handleSignIn(){
+    const email = emailInput.value;
+    const password = passwordInput.value;
 
+    //Need to check status of email verification
+    //if email verified is true, then if user sign in allow him to progress to app
+    //if email verified is false, then output message on login screen that he needs to verify
+    //i think i can check status of email verification using the userCredential object
+    //userCredential.user.emailVerified
+    //This field will either be true or false (true if the user verified)
+
+    //First rewatch tutorial on basic version of firebase?
+
+    //firbease sign in logic from documentation:
+    //https://github.com/firebase/quickstart-js/blob/master/auth/email-password.ts
+    
+    
 }
 
 //Change the interface to include 2 password boxes, remove sign-in button, remove forget password button

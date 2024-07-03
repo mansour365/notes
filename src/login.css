@@ -20,6 +20,15 @@ html, body{
 
     background-color: rgb(240, 244, 248);
 }
+p{
+    margin:auto;
+}
+
+#login-title{
+    margin: auto;
+}
+
+
 
 .loginCard{
     width: 300px;
@@ -32,3 +41,15 @@ html, body{
     flex-direction: column;
 }
 
+/*Hidden sign up button*/
+#sign-up{
+    display:none;
+}
+
+#password2{
+    display:none;
+}
+
+#cancel-create-account{
+    display:none;
+}

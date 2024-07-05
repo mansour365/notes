@@ -20,17 +20,15 @@ html, body{
 
     background-color: rgb(240, 244, 248);
 }
+
+/********************** Login Portion **********************/
 p{
     margin:auto;
 }
-
 #login-title{
     margin: auto;
 }
-
-
-
-.loginCard{
+#loginCard{
     width: 300px;
     height: 300px;
     background-color: rgb(255, 255, 255);
@@ -40,7 +38,6 @@ p{
     display:flex;
     flex-direction: column;
 }
-
 /*Hidden sign up button*/
 #sign-up{
     display:none;
@@ -53,3 +50,41 @@ p{
 #cancel-create-account{
     display:none;
 }
+
+/****************** Notes Portion *********************/
+#navbar-area{
+    display:none;
+    /*display:flex;  /*The entire navbar is a flexbox container*/
+    height: 53px; /*height of navbar is 53px (This height is fixed)*/
+    flex-direction: row; /*items in this flexbox are stacked left ot right*/
+    flex-wrap: nowrap; /*Make sure no wrapping occurs*/
+    background-color: rgb(244, 243, 244);
+    border-bottom: solid 1px rgb(217, 217, 217);
+}
+#navbar-left{
+    width: 281px;
+    border-right: solid 1px rgb(230, 230, 230);
+}
+#navbar-right{
+    flex-grow: 1;
+}
+
+/*Flex container*/
+#notearea{    
+    display: none;
+    /*display:flex; /*estblish that this container uses flexbox*/
+    flex-direction: row; /*items are layout in row direction*/
+    flex-wrap: nowrap; /*all items will appear on one line (no wrapping)*/
+    flex-grow:1; /*Needed so that notes area enxtends to bottom of screen*/
+}
+
+/*Flex items*/
+#notelist{
+    width: 281px;
+    border-right: solid 1px rgb(230, 230, 230);
+}
+#notebody{
+    flex-grow: 1;
+}
+
+

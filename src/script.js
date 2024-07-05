@@ -4,7 +4,7 @@
 //you must initialize firebase app first before calling any service getter function
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 //import the authentication from firebase (import the getter function)
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getDatabase, ref } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js'
 
 //It is not a security risk to include this, this is just needed to comunicate with firebase servers
@@ -20,17 +20,11 @@ const firebaseApp = initializeApp({
 
 const auth = getAuth(firebaseApp);
 
-function sendVerificationEmailToUser() {
-    sendEmailVerification(auth.currentUser).then(function () {
-      // Email Verification sent!
-      alert('Email Verification Sent!');
-    });
-  }
-
 //Get all our input fields
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const password2Input = document.getElementById("password2");
+
 
 const createAccountUserInterface = document.getElementById("create-account");
 const cancelCreateAccount = document.getElementById("cancel-create-account")
@@ -39,7 +33,6 @@ const signInButton = document.getElementById("sign-in");
 const signInStatus = document.getElementById("sign-in-status");
 const accountDetails = document.getElementById("account-details");
 const forgotButton = document.getElementById("forgot");
-
 
 
 /*Handles the sign up button press */
@@ -90,23 +83,78 @@ function handleSignUp(){    //async function always return a promise
 }
 
 function handleSignIn(){
-    const email = emailInput.value;
-    const password = passwordInput.value;
+    //if anyone is already signed in, then sign out
+    if(auth.currentUser){
+        signOut(auth);
+    }
+    //No one signed in, start sign-in process
+    else{
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        //Make sure inputs are not empty
+        if (email.length < 4) {
+            alert('Please enter an email address.');
+            return;
+        }
+        if (password.length < 4) {
+            alert('Please enter a password.');
+            return;
+        }
+        //sign in using firebase method
+        signInWithEmailAndPassword(auth, email, password)
+        .then(function(userCredential){
+            //check if email is actually verified
+            if(userCredential.user.emailVerified == true){
+                alert("login successful, now moving to the notes app");
+            }
+            //remove the login card
+            removeLoginCard();
+            //show the notes section
+            showNotes();
+        })
+        .catch(function(error){
+            //Handle errors
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            if (errorCode === 'auth/wrong-password') {
+                alert('Wrong password.');
+            } else {
+                alert(errorMessage);
+            }
+            console.log(error);
+        });
+    }
 
-    //Need to check status of email verification
-    //if email verified is true, then if user sign in allow him to progress to app
-    //if email verified is false, then output message on login screen that he needs to verify
-    //i think i can check status of email verification using the userCredential object
-    //userCredential.user.emailVerified
-    //This field will either be true or false (true if the user verified)
-
-    //First rewatch tutorial on basic version of firebase?
-
-    //firbease sign in logic from documentation:
-    //https://github.com/firebase/quickstart-js/blob/master/auth/email-password.ts
-    
-    
 }
+
+// Listening for auth state changes. (this function is called automatically when state changes)
+onAuthStateChanged(auth, function (user) {
+    //verifyEmailButton.disabled = true;
+    if (user) {
+      // User is signed in.
+      const displayName = user.displayName;
+      const email = user.email;
+      const emailVerified = user.emailVerified;
+      const photoURL = user.photoURL;
+      const isAnonymous = user.isAnonymous;
+      const uid = user.uid;
+      const providerData = user.providerData;
+      signInStatus.textContent = 'Signed in';
+      //signInButton.textContent = 'Sign out';
+      accountDetails.textContent = JSON.stringify(user, null, '  ');
+      if (!emailVerified) {
+        //verifyEmailButton.disabled = false;
+        console.log("email is not verified");
+      }
+    } else {
+      // User is signed out.
+      signInStatus.textContent = 'Signed out';
+      //signInButton.textContent = 'Sign in';
+      accountDetails.textContent = 'null';
+    }
+    //signInButton.disabled = false;
+  });
+  
 
 //Change the interface to include 2 password boxes, remove sign-in button, remove forget password button
 function CreateAccountUI(){
@@ -142,7 +190,16 @@ function handleCancelCreateAccount(){
     document.getElementById("password2").value='';
 }
 
+function removeLoginCard(){
+    //remove entire login card
+    //So it turns out that making a container hidden will also hide everything inside container
+    document.getElementById("loginCard").style.display="none";
+}
 
+function showNotes(){
+    document.getElementById("navbar-area").style.display="flex";
+    document.getElementById("notearea").style.display="flex";
+}
 
 /*
 //Detect auth state (tells me if a user is logged in)
@@ -165,6 +222,12 @@ function validate_email(email){
     }
 }
 
+//only show registration fields
 createAccountUserInterface.addEventListener('click', CreateAccountUI, false);
+//only show sign in fields
 cancelCreateAccount.addEventListener('click', handleCancelCreateAccount, false );
+
+
 signUpButton.addEventListener('click', handleSignUp, false);
+signInButton.addEventListener('click', handleSignIn, false);
+

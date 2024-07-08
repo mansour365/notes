@@ -5,7 +5,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 //import the authentication from firebase (import the getter function)
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { getDatabase, ref } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js'
+import { getDatabase, ref, push } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
 
 //It is not a security risk to include this, this is just needed to comunicate with firebase servers
 const firebaseApp = initializeApp({
@@ -18,7 +18,9 @@ const firebaseApp = initializeApp({
   appId: "1:615796291555:web:66cddf4e870beb52cad2d6"
 });
 
+const database = getDatabase(firebaseApp);
 const auth = getAuth(firebaseApp);
+const notesInDB = ref(database, "notes");
 
 //Get all our input fields
 const emailInput = document.getElementById("email");
@@ -27,12 +29,25 @@ const password2Input = document.getElementById("password2");
 
 
 const createAccountUserInterface = document.getElementById("create-account");
-const cancelCreateAccount = document.getElementById("cancel-create-account")
+const cancelCreateAccount = document.getElementById("cancel-create-account");
 const signUpButton = document.getElementById("sign-up");
 const signInButton = document.getElementById("sign-in");
 const signInStatus = document.getElementById("sign-in-status");
 const accountDetails = document.getElementById("account-details");
 const forgotButton = document.getElementById("forgot");
+
+const inputFieldEl = document.getElementById("note-text-box");
+
+const addButtonEl = document.getElementById("add-button");
+
+addButtonEl.addEventListener("click", function(){
+    let inputValue = inputFieldEl.value;
+
+    push(notesInDB, inputValue);
+})
+
+
+
 
 
 /*Handles the sign up button press */
@@ -105,12 +120,16 @@ function handleSignIn(){
         .then(function(userCredential){
             //check if email is actually verified
             if(userCredential.user.emailVerified == true){
-                alert("login successful, now moving to the notes app");
+                //alert("login successful, now moving to the notes app");
+                //remove the login card
+                removeLoginCard();
+                //show the notes section
+                showNotes();
             }
-            //remove the login card
-            removeLoginCard();
-            //show the notes section
-            showNotes();
+            else{
+                alert("You need to verify this email first before signing in.")
+            }
+            
         })
         .catch(function(error){
             //Handle errors
